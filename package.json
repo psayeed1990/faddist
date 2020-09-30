@@ -1,0 +1,35 @@
+{
+  "name": "faddist",
+  "version": "1.0.0",
+  "description": "A ecommerce app for cosmetic genre",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/psayeed1990/faddist.git"
+  },
+  "keywords": [
+    "ecommerce",
+    "shopping-cart",
+    "faddist"
+  ],
+  "author": "Abu Sayeed Mondal",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/psayeed1990/faddist/issues"
+  },
+  "homepage": "https://github.com/psayeed1990/faddist#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.5",
+    "express": "^4.17.1",
+    "mongoose": "^5.10.7",
+    "multer": "^1.4.2",
+    "validator": "^13.1.17"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  }
+}
