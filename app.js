@@ -12,10 +12,10 @@ const cookieParser = require('cookie-parser');
 const app = express();
 
 //load routes
-const userRoutes = require('/routes/userRoutes');
-const productRoutes = require('/routes/productRoutes');
-const categoryRoutes = require('/routes/categoryRoutes');
-const cartRoutes = require('/routes/cartRoutes');
+const userRoutes = require('./routes/userRoutes');
+const productRoutes = require('./routes/productRoutes');
+const categoryRoutes = require('./routes/categoryRoutes');
+const cartRoutes = require('./routes/cartRoutes');
 
 //enable proxy
 app.enable('trust-proxy');
@@ -62,8 +62,8 @@ app.use(compression());
 //routes
 app.use('/api/v1/users', userRoutes);
 app.use('/api/v1/products', productRoutes);
-app.use('/api/v1/categories', categoriesRoutes);
-app.use('/api/v1/carts', cartsRoutes);
+app.use('/api/v1/categories', categoryRoutes);
+app.use('/api/v1/carts', cartRoutes);
 
 // 404
 app.all('*', (req, res, next) => {
