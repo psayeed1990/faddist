@@ -30,9 +30,6 @@ app.options('*', cors());
 //public static folder
 app.use(express.static(path.join(__dirname, 'public')));
 
-//routes
-app.use('/', (req, res) => res.send('Hello Faddist'));
-
 //set security http header
 app.use(helmet());
 
@@ -60,9 +57,10 @@ app.use(xss());
 //prevent parameter pollution
 app.use(hpp());
 
-app.use(compression());
+// app.use(compression());
 
 //routes
+
 app.use('/api/v1/users', userRoutes);
 app.use('/api/v1/products', productRoutes);
 app.use('/api/v1/categories', categoryRoutes);

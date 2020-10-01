@@ -43,11 +43,59 @@ exports.signup = catchAsync(async (req, res, next) => {
     passwordConfirm: req.body.passwordConfirm,
   });
 
-  const url = `${req.protocol}://${req.get('host')}/me`;
-  // console.log(url);
-  await new Email(newUser, url).sendWelcome();
+  // const url = `${req.protocol}://${req.get('host')}/me`;
+  // // console.log(url);
+  // await new Email(newUser, url).sendWelcome();
+
+  //generate jwt token to verify email
+  const EmailVerifyToken = await signToken(newUser._id);
+
+  //verification url
+  const url = `${req.protocol}://${req.get(
+    'host'
+  )}/api/v1/users/email-verify/${EmailVerifyToken}`;
+
+  await new Email(newUser, url).sendEmailVerify();
 
   createSendToken(newUser, 201, req, res);
+});
+
+exports.verifyEmail = catchAsync(async (req, res, next) => {
+  const token = req.params.token;
+  const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+
+  //see if token expired
+  if (decoded.exp * 1000 <= Date.now()) {
+    return next(new AppError('Token expired', 401));
+  }
+
+  //find user by token
+  const currentUser = await User.findById(decoded.id);
+
+  //if user not found
+  if (!currentUser) {
+    return next(new AppError('User no longer exists', 401));
+  }
+
+  //if already verifies
+  if (currentUser.emailVerified === true) {
+    return next(new AppError('Already verified', 401));
+  }
+
+  if (currentUser.expire_at <= Date.now()) {
+    return next(new AppError('Time expired. User deleted. Signup Again', 401));
+  }
+
+  //set verification to true;
+  currentUser.emailVerified = true;
+  currentUser.expire_at = undefined;
+  await currentUser.save({ validateBeforeSave: false });
+  res.status(200).json({
+    data: {
+      user: currentUser,
+      msg: 'Email Verified. Please login',
+    },
+  });
 });
 
 exports.login = catchAsync(async (req, res, next) => {
