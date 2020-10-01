@@ -43,10 +43,6 @@ exports.signup = catchAsync(async (req, res, next) => {
     passwordConfirm: req.body.passwordConfirm,
   });
 
-  // const url = `${req.protocol}://${req.get('host')}/me`;
-  // // console.log(url);
-  // await new Email(newUser, url).sendWelcome();
-
   //generate jwt token to verify email
   const EmailVerifyToken = await signToken(newUser._id);
 
@@ -90,12 +86,12 @@ exports.verifyEmail = catchAsync(async (req, res, next) => {
   currentUser.emailVerified = true;
   currentUser.expire_at = undefined;
   await currentUser.save({ validateBeforeSave: false });
-  res.status(200).json({
-    data: {
-      user: currentUser,
-      msg: 'Email Verified. Please login',
-    },
-  });
+
+  const url = `${req.protocol}://${req.get('host')}/me`;
+  // console.log(url);
+  await new Email(currentUser, url).sendWelcome();
+
+  createSendToken(currentUser, 201, req, res);
 });
 
 exports.login = catchAsync(async (req, res, next) => {
