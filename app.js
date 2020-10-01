@@ -11,6 +11,9 @@ const cookieParser = require('cookie-parser');
 
 const app = express();
 
+//load controller
+const errorController = require('./controllers/errorController');
+
 //load routes
 const userRoutes = require('./routes/userRoutes');
 const productRoutes = require('./routes/productRoutes');
@@ -69,6 +72,9 @@ app.use('/api/v1/carts', cartRoutes);
 app.all('*', (req, res, next) => {
   res.send('Not found');
 });
+
+//error controller
+app.use(errorController);
 
 //export app
 module.exports = app;
