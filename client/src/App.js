@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState, useMemo } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { UserContext } from './components/UserContext';
 
@@ -14,19 +14,24 @@ import Navbar from './components/base/Navbar';
 //import css
 import './App.css';
 
-const App = () => (
-  <Router>
-    <Fragment>
-      <Navbar />
+const App = () => {
+  const [user, setUser] = useState(null);
 
-      <UserContext.Provider value="hi">
-        <Route exact path="/" component={Landing} />
-        <Route exact path="/user/register" component={Register} />
-        <Route exact path="/user/login" component={Login} />
-        <Route exact path="/user/dashboard" component={Dashboard} />
-      </UserContext.Provider>
-    </Fragment>
-  </Router>
-);
+  const value = useMemo(() => ({ user, setUser }), [user, setUser]);
+  return (
+    <Router>
+      <Fragment>
+        <Navbar />
+
+        <UserContext.Provider value={value}>
+          <Route exact path="/" component={Landing} />
+          <Route exact path="/user/register" component={Register} />
+          <Route exact path="/user/login" component={Login} />
+          <Route exact path="/user/dashboard" component={Dashboard} />
+        </UserContext.Provider>
+      </Fragment>
+    </Router>
+  );
+};
 
 export default App;
