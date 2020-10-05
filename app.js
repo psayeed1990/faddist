@@ -12,6 +12,7 @@ const cookieParser = require('cookie-parser');
 const app = express();
 
 //load controller
+const authController = require('./controllers/authController');
 const errorController = require('./controllers/errorController');
 
 //load routes
@@ -59,6 +60,8 @@ app.use(hpp());
 
 // app.use(compression());
 
+//isLogged in
+app.use(isLoggedIn());
 //routes
 
 app.use('/api/v1/users', userRoutes);
