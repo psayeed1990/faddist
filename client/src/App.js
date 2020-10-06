@@ -15,6 +15,7 @@ import Navbar from './components/base/Navbar';
 import './App.css';
 
 const App = () => {
+  const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
 
   const value = useMemo(() => ({ user, setUser }), [user, setUser]);
@@ -25,9 +26,9 @@ const App = () => {
 
         <UserContext.Provider value={value}>
           <Route exact path="/" component={Landing} />
+          <Route exact path="/user/dashboard" component={Dashboard} />
           <Route exact path="/user/register" component={Register} />
           <Route exact path="/user/login" component={Login} />
-          <Route exact path="/user/dashboard" component={Dashboard} />
         </UserContext.Provider>
       </Fragment>
     </Router>

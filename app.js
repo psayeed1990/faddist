@@ -61,7 +61,7 @@ app.use(hpp());
 // app.use(compression());
 
 //isLogged in
-app.use(isLoggedIn());
+// app.use(isLoggedIn());
 //routes
 
 app.use('/api/v1/users', userRoutes);
